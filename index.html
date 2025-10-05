@@ -1037,7 +1037,20 @@
         const overlay = document.getElementById('overlay');
         const cartItems = document.getElementById('cartItems');
         const cartTotal = document.getElementById('cartTotal');
-        const cartCount = document.querySelector('.cart-count');
+        <h3>معلومات الاتصال</h3><div class="social-links">
+    <a href="https://wa.me/963995606528" style="background: #25D366;">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://t.me/Hamza221w" style="background: #0088cc;">
+        <i class="fab fa-telegram"></i>
+    </a>
+    <a href="#">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="#">
+        <i class="fab fa-instagram"></i>
+    </a>
+</div>
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
         // Open cart
@@ -1050,7 +1063,7 @@
         closeCart.addEventListener('click', () => {
             cartSidebar.classList.remove('active');
             overlay.classList.remove('active');
-        });
+        }); 
 
         // Close cart when clicking overlay
         overlay.addEventListener('click', () => {
