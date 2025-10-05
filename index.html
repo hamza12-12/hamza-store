@@ -1147,4 +1147,75 @@
         });
     </script>
 </body>
+<script>
+// معلومات البنك - عدل هذه المعلومات حسب بياناتك
+const bankInfo = {
+    bankName: "بنك شام كاش",
+    accountNumber: "5418738758737929",
+    accountName: "حمزه محمود عبد الرحمن",
+    
+    iban: ""
+};
+
+// فتح نافذة البنك
+document.querySelectorAll('.bank-payment').forEach(button => {
+    button.addEventListener('click', function() {
+        const product = this.getAttribute('data-product');
+        const price = this.getAttribute('data-price');
+        
+        const bankDetails = `
+            <div style="text-align: right; direction: rtl; line-height: 1.8;">
+                <p style="color: #2c3e50; font-size: 18px; margin-bottom: 10px;">
+                    <strong>🛒 تفاصيل الطلب:</strong>
+                </p>
+                <p><strong>المنتج:</strong> ${product}</p>
+                <p><strong>السعر:</strong> ${price}</p>
+                <hr style="margin: 15px 0;">
+                
+                <p style="color: #27ae60; font-size: 18px; margin-bottom: 10px;">
+                    <strong>🏦 معلومات التحويل البنكي:</strong>
+                </p>
+                <p><strong>اسم البنك:</strong> ${bankInfo.bankName}</p>
+                <p><strong>رقم الحساب:</strong> ${bankInfo.accountNumber}</p>
+                <p><strong>اسم المستفيد:</strong> ${bankInfo.accountName}</p>
+                <p><strong>الفرع:</strong> ${bankInfo.branch}</p>
+                <p><strong>IBAN:</strong> ${bankInfo.iban}</p>
+                <hr style="margin: 15px 0;">
+                
+                <div style="background: #fff3cd; padding: 15px; border-radius: 5px; border-right: 4px solid #ffc107;">
+                    <p style="color: #856404; margin: 0; font-weight: bold;">
+                        📋 تعليمات مهمة:
+                    </p>
+                    <p style="color: #856404; margin: 5px 0 0 0; font-size: 14px;">
+                        1. قم بالتحويل إلى الحساب أعلاه<br>
+                        2. احفظ إيصال التحويل<br>
+                        3. أرسل الإيصال على الواتساب<br>
+                        4. سنقوم بتأكيد طلبك خلال ١٠ دقائق
+                    </p>
+                </div>
+                
+                <div style="margin-top: 15px; text-align: center;">
+                    <a href="https://wa.me/963995606528?text=مرحباً، قمت بالتحويل لطلب: ${product} - السعر: ${price}" 
+                       style="display: inline-block; background: #25D366; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+                       📱 إرسال الإيصال على واتساب
+                    </a>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('bankDetails').innerHTML = bankDetails;
+        document.getElementById('bankModal').style.display = 'block';
+        document.getElementById('overlay').style.display = 'block';
+    });
+});
+
+// إغلاق النافذة
+function closeBankModal() {
+    document.getElementById('bankModal').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+// إغلاق بالنقر خارج النافذة
+document.getElementById('overlay').addEventListener('click', closeBankModal);
+</script>    
 </html>
