@@ -9,8 +9,8 @@
     body {
       font-family: 'Cairo', sans-serif;
       margin: 0;
-      background: #f9f9f9;
-      color: #333;
+      background: #f5f6fa;
+      color: #222;
     }
 
     header {
@@ -19,22 +19,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 25px;
+      padding: 15px 20px;
       position: sticky;
       top: 0;
       z-index: 1000;
     }
 
     header h1 {
+      font-size: 20px;
       margin: 0;
-      font-size: 22px;
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
     }
 
     nav a {
       color: #fff;
-      margin: 0 10px;
       text-decoration: none;
       font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd700;
     }
 
     .cart-icon {
@@ -54,21 +63,24 @@
     }
 
     main {
-      padding: 30px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
     }
 
     .product {
       background: #fff;
-      border-radius: 15px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
       text-align: center;
+      padding: 10px;
       transition: 0.3s;
     }
 
@@ -78,45 +90,48 @@
 
     .product img {
       width: 100%;
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     .product h3 {
-      font-size: 18px;
-      margin: 10px 0;
+      font-size: 16px;
+      margin: 8px 0;
     }
 
-    .product .price {
+    .price {
       color: #0077b6;
       font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .product button {
       background: #2b3a67;
       color: white;
       border: none;
-      border-radius: 8px;
-      padding: 10px 15px;
+      border-radius: 6px;
+      padding: 8px 10px;
       cursor: pointer;
-      transition: 0.3s;
+      margin: 4px;
+      font-size: 14px;
     }
 
     .product button:hover {
       background: #1e2a52;
     }
 
-    /* سلة التسوق */
+    /* السلة */
     .cart-sidebar {
       position: fixed;
       top: 0;
       right: -400px;
-      width: 350px;
+      width: 330px;
       height: 100%;
       background: white;
       box-shadow: -2px 0 10px rgba(0,0,0,0.2);
       padding: 20px;
       transition: right 0.4s ease;
       z-index: 2000;
+      overflow-y: auto;
     }
 
     .cart-sidebar.active {
@@ -125,22 +140,20 @@
 
     .cart-item {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      margin-bottom: 10px;
+      align-items: center;
       border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
+      padding: 8px 0;
     }
 
     .cart-item h4 {
-      margin: 0;
       font-size: 14px;
+      margin: 0;
     }
 
     .cart-total {
       margin-top: 20px;
       font-weight: bold;
-      font-size: 16px;
       text-align: center;
     }
 
@@ -166,9 +179,9 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: white;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
       z-index: 2500;
       width: 90%;
       max-width: 400px;
@@ -176,10 +189,6 @@
 
     .modal.active {
       display: block;
-    }
-
-    .modal h4 {
-      margin-top: 0;
     }
 
     .close-btn {
@@ -193,10 +202,29 @@
 
     footer {
       text-align: center;
-      padding: 20px;
       background: #2b3a67;
-      color: #fff;
-      margin-top: 40px;
+      color: white;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    /* تحسين العرض للجوال */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product h3 {
+        font-size: 14px;
+      }
+      .product button {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
     }
   </style>
 </head>
@@ -216,8 +244,10 @@
 
 <main>
   <section id="products" class="products">
+
+    <!-- 🟢 المنتجات -->
     <div class="product">
-      <img src="https://via.placeholder.com/200" alt="منتج 1">
+      <img src="https://i.imgur.com/1pDcv2F.png" alt="شحن ببجي">
       <h3>شحن ببجي UC</h3>
       <p class="price">$10</p>
       <button class="add-to-cart" data-name="شحن ببجي" data-price="10">أضف للسلة</button>
@@ -225,12 +255,37 @@
     </div>
 
     <div class="product">
-      <img src="https://via.placeholder.com/200" alt="منتج 2">
-      <h3>شحن فورتنايت</h3>
+      <img src="https://i.imgur.com/xEecbqG.png" alt="شحن فورتنايت">
+      <h3>شحن فورتنايت V-Bucks</h3>
       <p class="price">$15</p>
       <button class="add-to-cart" data-name="شحن فورتنايت" data-price="15">أضف للسلة</button>
       <button class="bank-payment" data-product="شحن فورتنايت" data-price="$15">دفع بنكي</button>
     </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/GDTBzBe.png" alt="شحن فري فاير">
+      <h3>شحن فري فاير Diamonds</h3>
+      <p class="price">$8</p>
+      <button class="add-to-cart" data-name="شحن فري فاير" data-price="8">أضف للسلة</button>
+      <button class="bank-payment" data-product="شحن فري فاير" data-price="$8">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/KgULoU3.png" alt="نتفليكس">
+      <h3>بطاقة نتفليكس Netflix</h3>
+      <p class="price">$20</p>
+      <button class="add-to-cart" data-name="نتفليكس" data-price="20">أضف للسلة</button>
+      <button class="bank-payment" data-product="نتفليكس" data-price="$20">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/NbYEV9F.png" alt="سبوتيفاي">
+      <h3>بطاقة سبوتيفاي Spotify</h3>
+      <p class="price">$12</p>
+      <button class="add-to-cart" data-name="سبوتيفاي" data-price="12">أضف للسلة</button>
+      <button class="bank-payment" data-product="سبوتيفاي" data-price="$12">دفع بنكي</button>
+    </div>
+
   </section>
 </main>
 
@@ -275,7 +330,7 @@
     overlay.classList.add('active');
   });
 
-  // إغلاق السلة عند الضغط على الخلفية
+  // إغلاق السلة أو النافذة عند الضغط على الخلفية
   overlay.addEventListener('click', () => {
     cartSidebar.classList.remove('active');
     bankModal.classList.remove('active');
