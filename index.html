@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamza Ab للشحن</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      background: #f5f6fa;
+      color: #222;
+    }
+
+    header {
+      background: #2b3a67;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffd700;
+    }
+
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: #ff5252;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 12px;
+      padding: 2px 6px;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .product {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      text-align: center;
+      padding: 10px;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .product h3 {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    .price {
+      color: #0077b6;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product button {
+      background: #2b3a67;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 10px;
+      cursor: pointer;
+      margin: 4px;
+      font-size: 14px;
+    }
+
+    .product button:hover {
+      background: #1e2a52;
+    }
+
+    /* السلة */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 330px;
+      height: 100%;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 2000;
+      overflow-y: auto;
+    }
+
+    .cart-sidebar.active {
+      right: 0;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+    }
+
+    .cart-item h4 {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .cart-total {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1500;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* نافذة البنك */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      z-index: 2500;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal.active {
+      display: block;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    footer {
+      text-align: center;
+      background: #2b3a67;
+      color: white;
+      padding: 15px;
+      margin-top: 30px;
+    }
+
+    /* تحسين العرض للجوال */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product h3 {
+        font-size: 14px;
+      }
+      .product button {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Hamza Ab للشحن</h1>
+  <nav>
+    <a href="#products">المنتجات</a>
+    <a href="#contact">تواصل معنا</a>
+  </nav>
+  <div class="cart-icon" id="cartIcon">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="cart-count">0</span>
+  </div>
+</header>
+
+<main>
+  <section id="products" class="products">
+
+    <!-- 🟢 المنتجات -->
+    <div class="product">
+      <img src="https://i.imgur.com/1pDcv2F.png" alt="شحن ببجي">
+      <h3>شحن ببجي UC</h3>
+      <p class="price">$10</p>
+      <button class="add-to-cart" data-name="شحن ببجي" data-price="10">أضف للسلة</button>
+      <button class="bank-payment" data-product="شحن ببجي" data-price="$10">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/xEecbqG.png" alt="شحن فورتنايت">
+      <h3>شحن فورتنايت V-Bucks</h3>
+      <p class="price">$15</p>
+      <button class="add-to-cart" data-name="شحن فورتنايت" data-price="15">أضف للسلة</button>
+      <button class="bank-payment" data-product="شحن فورتنايت" data-price="$15">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/GDTBzBe.png" alt="شحن فري فاير">
+      <h3>شحن فري فاير Diamonds</h3>
+      <p class="price">$8</p>
+      <button class="add-to-cart" data-name="شحن فري فاير" data-price="8">أضف للسلة</button>
+      <button class="bank-payment" data-product="شحن فري فاير" data-price="$8">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/KgULoU3.png" alt="نتفليكس">
+      <h3>بطاقة نتفليكس Netflix</h3>
+      <p class="price">$20</p>
+      <button class="add-to-cart" data-name="نتفليكس" data-price="20">أضف للسلة</button>
+      <button class="bank-payment" data-product="نتفليكس" data-price="$20">دفع بنكي</button>
+    </div>
+
+    <div class="product">
+      <img src="https://i.imgur.com/NbYEV9F.png" alt="سبوتيفاي">
+      <h3>بطاقة سبوتيفاي Spotify</h3>
+      <p class="price">$12</p>
+      <button class="add-to-cart" data-name="سبوتيفاي" data-price="12">أضف للسلة</button>
+      <button class="bank-payment" data-product="سبوتيفاي" data-price="$12">دفع بنكي</button>
+    </div>
+
+  </section>
+</main>
+
+<!-- السلة -->
+<div class="cart-sidebar" id="cartSidebar">
+  <h3>سلة التسوق</h3>
+  <div id="cartItems"></div>
+  <div class="cart-total">الإجمالي: <span id="cartTotal">$0</span></div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- نافذة البنك -->
+<div class="modal" id="bankModal">
+  <span class="close-btn" id="closeModal">&times;</span>
+  <div id="bankDetails"></div>
+</div>
+
+<footer>
+  <p>© 2025 Hamza Ab - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+  const cart = [];
+  const cartIcon = document.getElementById('cartIcon');
+  const cartSidebar = document.getElementById('cartSidebar');
+  const overlay = document.getElementById('overlay');
+  const cartItems = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const cartCount = document.querySelector('.cart-count');
+
+  const bankModal = document.getElementById('bankModal');
+  const closeModal = document.getElementById('closeModal');
+  const bankDetails = document.getElementById('bankDetails');
+
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const bankButtons = document.querySelectorAll('.bank-payment');
+
+  // فتح السلة
+  cartIcon.addEventListener('click', () => {
+    cartSidebar.classList.add('active');
+    overlay.classList.add('active');
+  });
+
+  // إغلاق السلة أو النافذة عند الضغط على الخلفية
+  overlay.addEventListener('click', () => {
+    cartSidebar.classList.remove('active');
+    bankModal.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+
+  // إضافة للسلة
+  addToCartButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.name;
+      const price = parseFloat(btn.dataset.price);
+      cart.push({ name, price });
+      updateCart();
+      alert('✅ تم إضافة المنتج إلى السلة!');
+    });
+  });
+
+  function updateCart() {
+    cartItems.innerHTML = '';
+    let total = 0;
+    cart.forEach((item, i) => {
+      total += item.price;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <h4>${item.name}</h4>
+        <span>$${item.price}</span>
+        <i class="fas fa-trash" style="cursor:pointer;" onclick="removeFromCart(${i})"></i>
+      `;
+      cartItems.appendChild(div);
+    });
+    cartTotal.textContent = `$${total.toFixed(2)}`;
+    cartCount.textContent = cart.length;
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  // بيانات البنك
+  const bankInfo = {
+    bankName: "بنك شام كاش",
+    accountNumber: "5418738758737929",
+    accountName: "حمزه محمود عبد الرحمن"
+  };
+
+  bankButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const product = btn.dataset.product;
+      const price = btn.dataset.price;
+      bankDetails.innerHTML = `
+        <h4>تفاصيل الطلب</h4>
+        <p><strong>المنتج:</strong> ${product}</p>
+        <p><strong>السعر:</strong> ${price}</p>
+        <hr>
+        <h4>معلومات التحويل البنكي</h4>
+        <p><strong>اسم البنك:</strong> ${bankInfo.bankName}</p>
+        <p><strong>رقم الحساب:</strong> ${bankInfo.accountNumber}</p>
+        <p><strong>اسم المستفيد:</strong> ${bankInfo.accountName}</p>
+        <a href="https://wa.me/963995606528?text=مرحباً، قمت بالتحويل لطلب: ${product} - السعر: ${price}"
+           style="display:block;text-align:center;background:#25D366;color:white;padding:10px;margin-top:10px;border-radius:8px;text-decoration:none;">
+           إرسال الإيصال عبر واتساب
+        </a>
+      `;
+      bankModal.classList.add('active');
+      overlay.classList.add('active');
+    });
+  });
+
+  closeModal.addEventListener('click', () => {
+    bankModal.classList.remove('active');
+    overlay.classList.remove('active');
+  });
+</script>
+
+</body>
+</html>
