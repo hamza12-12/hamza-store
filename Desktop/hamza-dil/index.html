@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كشف الأشياء - TensorFlow.js و COCO-SSD</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>🔍 تطبيق كشف الأشياء في الوقت الحقيقي</h1>
+    
+    <div id="controls">
+        <button id="toggle-button" disabled>انتظر تحميل النموذج...</button>
+        <div id="status">جاري تحميل النموذج...</div>
+    </div>
+
+    <div id="detection-container">
+        <video id="webcam-video" autoplay muted playsinline></video>
+        <canvas id="detection-canvas"></canvas>
+    </div>
+    
+    <div id="log-section">
+        <h2>📜 سجل الاكتشافات الأخيرة</h2>
+        <button id="clear-log-button">مسح السجل</button>
+        <ul id="detection-log-list">
+            </ul>
+    </div>
+
+    <div class="footer-developer">
+        المبرمج الصانع: 
+        <span class="developer-name">HAMZA</span>
+        (اللقب الإنجليزي: <span class="developer-name">The Coder</span>)
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
