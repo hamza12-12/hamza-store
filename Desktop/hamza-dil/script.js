@@ -99,17 +99,14 @@ function clearLog() {
  * @returns {Promise<boolean>} - True إذا نجح التشغيل، False إذا فشل.
  */
 async function setupWebcam() {
+    try// ... الكود المعدّل في دالة startWebcam ...
+async function startWebcam() {
     try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoElement.srcObject = stream;
-        
-        await new Promise((resolve) => {
-            videoElement.onloadeddata = () => {
-                canvasElement.width = videoElement.videoWidth;
-                canvasElement.height = videoElement.videoHeight;
-                videoElement.play(); 
-                resolve();
-            };
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            // يمكن أن يكون "environment" (الخلفية) أو "user" (الأمامية)
+            video: { facingMode: "environment" } 
+        });
+// ... بقية الكود ...
         });
         return true; 
 
